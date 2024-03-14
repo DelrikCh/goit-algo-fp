@@ -60,6 +60,46 @@ class LinkedList:
             print(current.data)
             current = current.next
 
+    def reverse(self):
+        prev = None
+        cur = self.head
+        while cur:
+            next_node = cur.next
+            cur.next = prev
+            prev = cur
+            cur = next_node
+        self.head = prev
+
+    def sort(self):
+        cur = self.head
+        while cur:
+            next_node = cur.next
+            while next_node:
+                if cur.data > next_node.data:
+                    cur.data, next_node.data = next_node.data, cur.data
+                next_node = next_node.next
+            cur = cur.next
+
+
+def combine_sorted_lists(list1: LinkedList, list2: LinkedList) -> LinkedList:
+    new_list = LinkedList()
+    cur1 = list1.head
+    cur2 = list2.head
+    while cur1 and cur2:
+        if cur1.data < cur2.data:
+            new_list.insert_at_end(cur1.data)
+            cur1 = cur1.next
+        else:
+            new_list.insert_at_end(cur2.data)
+            cur2 = cur2.next
+    while cur1:
+        new_list.insert_at_end(cur1.data)
+        cur1 = cur1.next
+    while cur2:
+        new_list.insert_at_end(cur2.data)
+        cur2 = cur2.next
+    return new_list
+
 
 llist = LinkedList()
 
@@ -87,3 +127,26 @@ print("\nШукаємо елемент 15:")
 element = llist.search_element(15)
 if element:
     print(element.data)
+
+print("\nЗв'язний список після реверсу:")
+llist.reverse()
+llist.print_list()
+
+print("\nЗв'язний список після сортування:")
+llist.sort()
+llist.print_list()
+
+llist_2 = LinkedList()
+llist_2.insert_at_end(2)
+llist_2.insert_at_end(3)
+llist_2.insert_at_end(20)
+llist_2.insert_at_end(25)
+llist_2.insert_at_end(30)
+llist_2.sort()
+
+print("\nЗв'язний список 2:")
+llist_2.print_list()
+
+print("\nЗв'язний список після об'єднання відсортованих списків:")
+combined_list = combine_sorted_lists(llist, llist_2)
+combined_list.print_list()
